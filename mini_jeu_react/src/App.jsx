@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 // Composants simples
@@ -22,7 +22,7 @@ function Button({ children, disabled, variant = "primary", ...props }) {
   );
 }
 
-// 🔥 Tes objectifs annuels
+// 🔥 Objectifs
 const objectifs = [
   { id: 1, titre: "Objectif 1", description: "Décrire le premier objectif.", trimestre: 1 },
   { id: 2, titre: "Objectif 2", description: "Deuxième objectif important.", trimestre: 2 },
@@ -35,6 +35,33 @@ const POSITIONS = [0, 33.333, 66.666, 100];
 
 export default function MiniJeuObjectifs() {
   const [qIndex, setQIndex] = useState(0);
+
+  // 🎵 Références audio
+  const musicRef = useRef(null);
+  const starSoundRef = useRef(null);
+
+  // 🎵 Charger les sons et démarrer la musique
+  useEffect(() => {
+    musicRef.current = new Audio("/mario.mp3");
+    musicRef.current.loop = true;
+    musicRef.current.volume = 0.3;
+
+    // Essayer de lire automatiquement
+    musicRef.current.play().catch(() => {
+      console.log("⚠ Autoplay bloqué, la musique jouera après interaction.");
+    });
+
+    starSoundRef.current = new Audio("/star.mp3");
+    starSoundRef.current.volume = 0.8;
+  }, []);
+
+  // ⭐ Jouer le son étoile à T4
+  useEffect(() => {
+    if (qIndex === 3 && starSoundRef.current) {
+      starSoundRef.current.currentTime = 0;
+      starSoundRef.current.play();
+    }
+  }, [qIndex]);
 
   const objectifsCourants = useMemo(
     () => objectifs.filter((o) => o.trimestre === qIndex + 1),
@@ -58,11 +85,10 @@ export default function MiniJeuObjectifs() {
       {/* Piste du temps */}
       <div className="relative w-full max-w-3xl mt-4">
         <div className="relative h-28">
-
           {/* Ligne */}
           <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-300 rounded-full" />
 
-          {/* Repères T1–T4 */}
+          {/* Repères */}
           {TRIMESTRES.map((label, i) => (
             <div
               key={label}
@@ -94,9 +120,7 @@ export default function MiniJeuObjectifs() {
           >
             <Card className="border-amber-700 bg-amber-100 border-2 shadow-xl min-w-[260px] max-w-[360px]">
               <CardContent>
-                <div className="font-bold text-amber-900">
-                  {TRIMESTRES[qIndex]} • Objectifs
-                </div>
+                <div className="font-bold text-amber-900">{TRIMESTRES[qIndex]} • Objectifs</div>
 
                 {objectifsCourants.map((o) => (
                   <div key={o.id} className="mt-2">
@@ -122,7 +146,7 @@ export default function MiniJeuObjectifs() {
 
       <p className="text-xs text-slate-500">Utilise aussi les flèches du clavier !</p>
 
-      {/* ⭐ ÉTOILE FINALE */}
+      {/* ⭐ Étoile finale + message */}
       {qIndex === 3 && (
         <motion.div
           initial={{ scale: 0, opacity: 0 }}
