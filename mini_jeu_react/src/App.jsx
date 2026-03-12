@@ -24,10 +24,10 @@ function Button({ children, disabled, variant = "primary", ...props }) {
 
 // 🔥 Objectifs
 const objectifs = [
-  { id: 1, titre: "Avr-Juin", description: "✅ Validation report tool <br>✅ QA30.", trimestre: 1 },
-  { id: 2, titre: "Juil-Sep", description: "✅ PM tool key user <br>✅ Vacances", trimestre: 2 },
-  { id: 3, titre: "Oct-Dec", description: "✅ Dashboard librairie Prog & Val<br>🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool", trimestre: 3 },
-  { id: 4, titre: "Janv-Mars", description: "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool <br>🕒 Alertes mail temps prog & Val dans pm tool", trimestre: 4 },
+  { id: 1, titre: "Avr-Juin", description: "✅ Validation report tool \n✅ QA30.", trimestre: 1 },
+  { id: 2, titre: "Juil-Sep", description: "✅ PM tool key user \n✅ Vacances", trimestre: 2 },
+  { id: 3, titre: "Oct-Dec", description: "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool", trimestre: 3 },
+  { id: 4, titre: "Janv-Mars", description: "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool \n🕒 Alertes mail temps prog & Val dans pm tool", trimestre: 4 },
 ];
 
 const TRIMESTRES = ["T1", "T2", "T3", "T4"];
