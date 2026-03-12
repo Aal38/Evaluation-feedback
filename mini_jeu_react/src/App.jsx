@@ -30,8 +30,8 @@ function Button({ children, disabled, variant = "primary", className = "", ...pr
    ────────────────────────────────────────────────────────────── */
 // 🔥 Tes objectifs (inchangés, juste &amp; et \n gérés plus bas)
 const objectifs = [
-  { id: 1, titre: "Avr-Juin", description: "✅ Validation report tool \n✅ QA30.", trimestre: 1 },
-  { id: 2, titre: "Juil-Sep", description: "✅ PM tool key user \n✅ Vacances", trimestre: 2 },
+  { id: 1, titre: "Avr-Juin", description: "✅ Finalisation Validation report tool", trimestre: 1 },
+  { id: 2, titre: "Juil-Sep", description: "✅ QA30 : Validation report tool \n✅ PM tool key user \n✅ Vacances", trimestre: 2 },
   { id: 3, titre: "Oct-Dec", description: "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool", trimestre: 3 },
   { id: 4, titre: "Janv-Mars", description: "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool \n🕒 Alertes mail temps prog & Val dans pm tool", trimestre: 4 },
 ];
@@ -142,7 +142,7 @@ export default function MiniJeuObjectifs() {
     <div className="w-full min-h-[520px] flex flex-col items-center p-6 gap-6 select-none">
       {/* Titre + contrôles audio */}
       <div className="w-full max-w-3xl flex items-center justify-between">
-        <h1 className="text-2xl sm:text-3xl font-bold">Mini‑app synthétique : Objectifs annuels</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">Mini‑app Objectifs JC par Trimestre</h1>
         <div className="flex items-center gap-2">
           <Button variant="ghost" onClick={() => setMuted((m) => !m)}>
             {muted ? "🔇 Muet" : "🔊 Son"}
