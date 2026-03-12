@@ -142,7 +142,7 @@ export default function MiniJeuObjectifs() {
       {/* HEADER */}
       <div className="w-full max-w-3xl flex items-center justify-between">
         <h1 className="text-2xl sm:text-3xl font-bold">
-          Mini‑app Objectifs JC par Trimestre
+          Mini‑App Objectifs JC par Trimestre
         </h1>
 
         <Button variant="ghost" onClick={() => setMuted(m => !m)}>
@@ -189,7 +189,7 @@ export default function MiniJeuObjectifs() {
 				<CardContent>
 				  {/* Titre pancarte en plus petit */}
 				  <div className="text-sm font-semibold text-amber-900">
-					{TRIMESTRES[qIndex]} • Objectifs
+					{TRIMESTRES[qIndex]} • Objectifs JC
 				  </div>
 
 				  <ul className="mt-2 space-y-2">
