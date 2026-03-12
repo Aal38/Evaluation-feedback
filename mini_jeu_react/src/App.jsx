@@ -36,21 +36,21 @@ const objectifs = [
   {
     id: 2,
     titre: "Juil-Sep",
-    description: "✅ QA30 : Validation report tool\n \n✅ PM tool key user\n \n✅ Vacances",
+    description: "✅ QA30 : Validation report tool\n✅ PM tool key user\n✅ Vacances",
     trimestre: 2
   },
   {
     id: 3,
     titre: "Oct-Dec",
     description:
-      "✅ Dashboard librairie Prog & Val\n \n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n \n🕒 Gamp 5 - Risk & traceability : réunions de lancement, partage des idées...",
+      "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n🕒 Gamp 5 - Risk & traceability : réunions de lancement, partage des idées...",
     trimestre: 3,
   },
   {
     id: 4,
     titre: "Janv-Mars",
     description:
-      "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n \n🕒 Alertes mails temps consommés dans PM tool\n \n🕒 Gamp 5 - Risk & traceability : implication encore limité de notre côté, en cours",
+      "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n🕒 Alertes mails temps consommés dans PM tool\n🕒 Gamp 5 - Risk & traceability : implication encore limité de notre côté, en cours",
     trimestre: 4,
   },
 ];
@@ -186,24 +186,26 @@ export default function MiniJeuObjectifs() {
             style={{ left: `min(max(${POSITIONS[qIndex]}%, 10%), 90%)` }}
           >
             <Card className="border-amber-700 bg-amber-100 border-2 shadow-xl min-w-[260px] max-w-[360px]">
-              <CardContent>
+				<CardContent>
+				  {/* Titre pancarte en plus petit */}
+				  <div className="text-sm font-semibold text-amber-900">
+					{TRIMESTRES[qIndex]} • Objectifs
+				  </div>
 
-                <div className="font-bold text-amber-900">
-                  {TRIMESTRES[qIndex]} • Objectifs
-                </div>
+				  <ul className="mt-2 space-y-2">
+					{objectifsCourants.map(o => (
+					  <li key={o.id}>
+						{/* Titre objectif plus petit */}
+						<div className="text-sm font-semibold">{o.titre}</div>
 
-                <ul className="mt-2 space-y-2">
-                  {objectifsCourants.map(o => (
-                    <li key={o.id}>
-                      <div className="font-semibold">{o.titre}</div>
-                      <div className="text-sm leading-snug">
-                        <Description text={o.description} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-              </CardContent>
+						{/* Description en XS */}
+						<div className="text-xs leading-snug opacity-90">
+						  <Description text={o.description} />
+						</div>
+					  </li>
+					))}
+				  </ul>
+				</CardContent>
             </Card>
           </motion.div>
         </div>
