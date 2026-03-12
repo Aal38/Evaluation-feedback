@@ -33,19 +33,24 @@ Données
 ────────────────────────────────────────────── */
 const objectifs = [
   { id: 1, titre: "Avr-Juin", description: "✅ Finalisation Validation report tool", trimestre: 1 },
-  { id: 2, titre: "Juil-Sep", description: "✅ QA30 : Validation report tool\n✅ PM tool key user\n✅ Vacances", trimestre: 2 },
+  {
+    id: 2,
+    titre: "Juil-Sep",
+    description: "✅ QA30 : Validation report tool\n \n✅ PM tool key user\n \n✅ Vacances",
+    trimestre: 2
+  },
   {
     id: 3,
     titre: "Oct-Dec",
     description:
-      "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool \n🕒Gamp 5- Risk & traceability fully integrated in study projects implementation & validation : réunions de lancement, partage des idées...",
+      "✅ Dashboard librairie Prog & Val\n \n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n \n🕒 Gamp 5 - Risk & traceability : réunions de lancement, partage des idées...",
     trimestre: 3,
   },
   {
     id: 4,
     titre: "Janv-Mars",
     description:
-      "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n🕒 Alertes mails temps consommés dans pm tool \n🕒Gamp 5- Risk & traceability fully integrated in study projects implementation & validation: en cours, implication encore limité de notre côté",
+      "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n \n🕒 Alertes mails temps consommés dans PM tool\n \n🕒 Gamp 5 - Risk & traceability : implication encore limité de notre côté, en cours",
     trimestre: 4,
   },
 ];
@@ -80,8 +85,7 @@ export default function MiniJeuObjectifs() {
     starRef.current.volume = 0.8;
     starRef.current.muted = muted;
 
-    musicRef.current
-      .play()
+    musicRef.current.play()
       .then(() => setAudioReady(true))
       .catch(() => setAudioReady(false));
 
@@ -104,8 +108,12 @@ export default function MiniJeuObjectifs() {
     }
   }, [qIndex]);
 
-  const objectifsCourants = useMemo(() => objectifs.filter((o) => o.trimestre === qIndex + 1), [qIndex]);
+  const objectifsCourants = useMemo(
+    () => objectifs.filter((o) => o.trimestre === qIndex + 1),
+    [qIndex]
+  );
 
+  /* Navigation clavier */
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "ArrowLeft") setQIndex((i) => clamp(i - 1, 0, 3));
@@ -115,7 +123,7 @@ export default function MiniJeuObjectifs() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  /* Premier clic → Activer audio */
+  /* Premier clic → débloque audio */
   useEffect(() => {
     const startAudio = () => {
       if (musicRef.current && !audioReady && !muted) {
@@ -130,11 +138,14 @@ export default function MiniJeuObjectifs() {
 
   return (
     <div className="w-full min-h-[520px] flex flex-col items-center p-6 gap-6 select-none">
+
       {/* HEADER */}
       <div className="w-full max-w-3xl flex items-center justify-between">
-        <h1 className="text-2xl sm:text-3xl font-bold">Mini‑app Objectifs JC par Trimestre</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          Mini‑app Objectifs JC par Trimestre
+        </h1>
 
-        <Button variant="ghost" onClick={() => setMuted((m) => !m)}>
+        <Button variant="ghost" onClick={() => setMuted(m => !m)}>
           {muted ? "🔇 Muet" : "🔊 Son"}
         </Button>
       </div>
@@ -143,34 +154,27 @@ export default function MiniJeuObjectifs() {
       <div className="relative w-full max-w-3xl mt-2">
         <div className="relative h-28">
 
-          {/* BARRE — SANS OMBRE */}
-          <div
-            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-300 rounded-full"
-          />
+          {/* BARRE */}
+          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-300 rounded-full" />
 
           {/* MARQUEURS */}
           {TRIMESTRES.map((label, i) => (
             <div key={label} className="absolute top-1/2 -translate-y-1/2" style={{ left: `${POSITIONS[i]}%` }}>
               <div className="w-0.5 h-6 bg-slate-500 mx-auto" />
-              <div className={`text-xs mt-2 text-center ${qIndex === i ? "font-semibold" : ""}`}>{label}</div>
+              <div className={`text-xs mt-2 text-center ${qIndex === i ? "font-semibold" : ""}`}>
+                {label}
+              </div>
             </div>
           ))}
 
-          {/* PERSONNAGE — AJOUT ANIMATION DE MARCHE */}
+          {/* PERSONNAGE — SANS ANIMATION 😄 */}
           <motion.div
             initial={false}
-            animate={{
-              left: `${POSITIONS[qIndex]}%`,
-              y: [0, -4, 0],
-              rotate: [-2, 2, -2],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 0.6,
-            }}
+            animate={{ left: `${POSITIONS[qIndex]}%` }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="absolute bottom-0 -translate-x-1/2 text-4xl"
           >
-            <div>👨🏻‍💻</div>
+            👨🏻‍💻
           </motion.div>
 
           {/* PANCARTE */}
@@ -183,21 +187,22 @@ export default function MiniJeuObjectifs() {
           >
             <Card className="border-amber-700 bg-amber-100 border-2 shadow-xl min-w-[260px] max-w-[360px]">
               <CardContent>
-                <div className="font-bold text-amber-900">{TRIMESTRES[qIndex]} • Objectifs</div>
-                {objectifsCourants.length === 0 ? (
-                  <p className="mt-2 text-sm text-slate-600">Aucun objectif.</p>
-                ) : (
-                  <ul className="mt-2 space-y-2">
-                    {objectifsCourants.map((o) => (
-                      <li key={o.id}>
-                        <div className="font-semibold">{o.titre}</div>
-                        <div className="text-sm leading-snug">
-                          <Description text={o.description} />
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+
+                <div className="font-bold text-amber-900">
+                  {TRIMESTRES[qIndex]} • Objectifs
+                </div>
+
+                <ul className="mt-2 space-y-2">
+                  {objectifsCourants.map(o => (
+                    <li key={o.id}>
+                      <div className="font-semibold">{o.titre}</div>
+                      <div className="text-sm leading-snug">
+                        <Description text={o.description} />
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
               </CardContent>
             </Card>
           </motion.div>
@@ -206,22 +211,33 @@ export default function MiniJeuObjectifs() {
 
       {/* BOUTONS */}
       <div className="flex gap-4">
-        <Button onClick={() => setQIndex((i) => clamp(i - 1, 0, 3))} disabled={qIndex === 0} variant="secondary">
+        <Button onClick={() => setQIndex(i => clamp(i - 1, 0, 3))} disabled={qIndex === 0} variant="secondary">
           ← Précédent
         </Button>
-        <Button onClick={() => setQIndex((i) => clamp(i + 1, 0, 3))} disabled={qIndex === 3}>
+        <Button onClick={() => setQIndex(i => clamp(i + 1, 0, 3))} disabled={qIndex === 3}>
           Suivant →
         </Button>
       </div>
 
-      <p className="text-xs text-slate-500 mt-2">Astuce : utilise les flèches du clavier pour faire avancer le personnage.</p>
+      <p className="text-xs text-slate-500 mt-2">
+        Astuce : utilise les flèches du clavier pour faire avancer le personnage.
+      </p>
 
+      {/* ÉTOILE FINALE */}
       {qIndex === 3 && (
-        <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1.2, opacity: 1 }} transition={{ duration: 1 }} className="mt-6 text-center">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1.2, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="mt-6 text-center"
+        >
           <div className="text-6xl drop-shadow-lg">⭐</div>
-          <div className="text-xl mt-3 font-semibold">Adopt AI & learn new technologies !</div>
+          <div className="text-xl mt-3 font-semibold">
+            Adopt AI & learn new technologies !
+          </div>
         </motion.div>
       )}
+
     </div>
   );
 }
