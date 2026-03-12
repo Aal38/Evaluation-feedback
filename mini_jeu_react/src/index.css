@@ -6,3 +6,10 @@
 :root { color-scheme: light; }
 html, body, #root { height: 100%; }
 body { @apply bg-slate-50 text-slate-900; }
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* empêche la barre de scroll */
+}

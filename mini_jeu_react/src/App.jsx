@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-/* ──────────────────────────────────────────────────────────────
-Composants simples (Card, CardContent, Button)
-────────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────
+Composants
+────────────────────────────────────────────── */
 function Card({ children, className = "" }) {
   return <div className={"rounded-xl border bg-white shadow " + className}>{children}</div>;
 }
@@ -28,41 +28,39 @@ function Button({ children, disabled, variant = "primary", className = "", ...pr
   );
 }
 
-/* ──────────────────────────────────────────────────────────────
+/* ───────────────────────────────────────────
 Données
-────────────────────────────────────────────────────────────── */
+────────────────────────────────────────────── */
 const objectifs = [
   { id: 1, titre: "Avr-Juin", description: "✅ Finalisation Validation report tool", trimestre: 1 },
   { id: 2, titre: "Juil-Sep", description: "✅ QA30 : Validation report tool\n✅ PM tool key user\n✅ Vacances", trimestre: 2 },
   {
     id: 3,
     titre: "Oct-Dec",
-    description: "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool",
+    description:
+      "✅ Dashboard librairie Prog & Val\n🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool \n🕒Gamp 5- Risk & traceability fully integrated in study projects implementation & validation : réunions de lancement, partage des idées...",
     trimestre: 3,
   },
   {
     id: 4,
     titre: "Janv-Mars",
-    description: "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n🕒 Alertes mail temps prog & Val dans pm tool",
+    description:
+      "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool\n🕒 Alertes mails temps consommés dans pm tool \n🕒Gamp 5- Risk & traceability fully integrated in study projects implementation & validation: en cours, implication encore limité de notre côté",
     trimestre: 4,
   },
 ];
 
 const TRIMESTRES = ["T1", "T2", "T3", "T4"];
 const POSITIONS = [0, 33.333, 66.666, 100];
-
-/* ──────────────────────────────────────────────────────────────
-Utilitaires
-────────────────────────────────────────────────────────────── */
 const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 
 function Description({ text }) {
   return <span style={{ whiteSpace: "pre-line" }}>{text}</span>;
 }
 
-/* ──────────────────────────────────────────────────────────────
-Composant principal
-────────────────────────────────────────────────────────────── */
+/* ───────────────────────────────────────────
+Mini Jeu
+────────────────────────────────────────────── */
 export default function MiniJeuObjectifs() {
   const [qIndex, setQIndex] = useState(0);
   const [muted, setMuted] = useState(false);
@@ -71,7 +69,7 @@ export default function MiniJeuObjectifs() {
   const musicRef = useRef(null);
   const starRef = useRef(null);
 
-  /* 🎵 Charger les sons */
+  /* Sons */
   useEffect(() => {
     musicRef.current = new Audio("/mario.mp3");
     musicRef.current.loop = true;
@@ -82,7 +80,10 @@ export default function MiniJeuObjectifs() {
     starRef.current.volume = 0.8;
     starRef.current.muted = muted;
 
-    musicRef.current.play().then(() => setAudioReady(true)).catch(() => setAudioReady(false));
+    musicRef.current
+      .play()
+      .then(() => setAudioReady(true))
+      .catch(() => setAudioReady(false));
 
     return () => {
       try {
@@ -91,13 +92,11 @@ export default function MiniJeuObjectifs() {
     };
   }, []);
 
-  /* mute / unmute */
   useEffect(() => {
     if (musicRef.current) musicRef.current.muted = muted;
     if (starRef.current) starRef.current.muted = muted;
   }, [muted]);
 
-  /* 🎵 Son étoile à T4 */
   useEffect(() => {
     if (qIndex === 3 && starRef.current) {
       starRef.current.currentTime = 0;
@@ -105,13 +104,8 @@ export default function MiniJeuObjectifs() {
     }
   }, [qIndex]);
 
-  /* Objectifs filtrés */
-  const objectifsCourants = useMemo(
-    () => objectifs.filter((o) => o.trimestre === qIndex + 1),
-    [qIndex]
-  );
+  const objectifsCourants = useMemo(() => objectifs.filter((o) => o.trimestre === qIndex + 1), [qIndex]);
 
-  /* Navigation clavier */
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "ArrowLeft") setQIndex((i) => clamp(i - 1, 0, 3));
@@ -121,7 +115,7 @@ export default function MiniJeuObjectifs() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  /* Premier clic = activer musique */
+  /* Premier clic → Activer audio */
   useEffect(() => {
     const startAudio = () => {
       if (musicRef.current && !audioReady && !muted) {
@@ -136,7 +130,7 @@ export default function MiniJeuObjectifs() {
 
   return (
     <div className="w-full min-h-[520px] flex flex-col items-center p-6 gap-6 select-none">
-      {/* Titre */}
+      {/* HEADER */}
       <div className="w-full max-w-3xl flex items-center justify-between">
         <h1 className="text-2xl sm:text-3xl font-bold">Mini‑app Objectifs JC par Trimestre</h1>
 
@@ -145,11 +139,16 @@ export default function MiniJeuObjectifs() {
         </Button>
       </div>
 
-      {/* Timeline */}
+      {/* TIMELINE */}
       <div className="relative w-full max-w-3xl mt-2">
         <div className="relative h-28">
-          <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-300 rounded-full" />
 
+          {/* BARRE — SANS OMBRE */}
+          <div
+            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-2 bg-slate-300 rounded-full"
+          />
+
+          {/* MARQUEURS */}
           {TRIMESTRES.map((label, i) => (
             <div key={label} className="absolute top-1/2 -translate-y-1/2" style={{ left: `${POSITIONS[i]}%` }}>
               <div className="w-0.5 h-6 bg-slate-500 mx-auto" />
@@ -157,18 +156,24 @@ export default function MiniJeuObjectifs() {
             </div>
           ))}
 
-          {/* Personnage */}
+          {/* PERSONNAGE — AJOUT ANIMATION DE MARCHE */}
           <motion.div
             initial={false}
-            animate={{ left: `${POSITIONS[qIndex]}%` }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            animate={{
+              left: `${POSITIONS[qIndex]}%`,
+              y: [0, -4, 0],
+              rotate: [-2, 2, -2],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 0.6,
+            }}
             className="absolute bottom-0 -translate-x-1/2 text-4xl"
           >
-            <div className="mx-auto mb-1 h-2 w-12 rounded-full bg-black/10" />
             <div>👨🏻‍💻</div>
           </motion.div>
 
-          {/* Pancarte */}
+          {/* PANCARTE */}
           <motion.div
             key={qIndex}
             initial={{ opacity: 0, y: 12 }}
@@ -199,32 +204,20 @@ export default function MiniJeuObjectifs() {
         </div>
       </div>
 
-      {/* Boutons */}
+      {/* BOUTONS */}
       <div className="flex gap-4">
-        <Button
-          onClick={() => setQIndex((i) => clamp(i - 1, 0, 3))}
-          disabled={qIndex === 0}
-          variant="secondary"
-        >
+        <Button onClick={() => setQIndex((i) => clamp(i - 1, 0, 3))} disabled={qIndex === 0} variant="secondary">
           ← Précédent
         </Button>
-
-        <Button
-          onClick={() => setQIndex((i) => clamp(i + 1, 0, 3))}
-          disabled={qIndex === 3}
-        >
+        <Button onClick={() => setQIndex((i) => clamp(i + 1, 0, 3))} disabled={qIndex === 3}>
           Suivant →
         </Button>
       </div>
 
-      {/* Finish */}
+      <p className="text-xs text-slate-500 mt-2">Astuce : utilise les flèches du clavier pour faire avancer le personnage.</p>
+
       {qIndex === 3 && (
-        <motion.div
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1.2, opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="mt-6 text-center"
-        >
+        <motion.div initial={{ scale: 0, opacity: 0 }} animate={{ scale: 1.2, opacity: 1 }} transition={{ duration: 1 }} className="mt-6 text-center">
           <div className="text-6xl drop-shadow-lg">⭐</div>
           <div className="text-xl mt-3 font-semibold">Adopt AI & learn new technologies !</div>
         </motion.div>
