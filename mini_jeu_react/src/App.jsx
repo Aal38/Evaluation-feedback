@@ -24,10 +24,10 @@ function Button({ children, disabled, variant = "primary", ...props }) {
 
 // 🔥 Objectifs
 const objectifs = [
-  { id: 1, titre: "Objectif 1", description: "Décrire le premier objectif.", trimestre: 1 },
-  { id: 2, titre: "Objectif 2", description: "Deuxième objectif important.", trimestre: 2 },
-  { id: 3, titre: "Objectif 3", description: "Troisième étape clé.", trimestre: 3 },
-  { id: 4, titre: "Objectif 4", description: "Quatrième objectif final.", trimestre: 4 },
+  { id: 1, titre: "Avr-Juin", description: "✅ Validation report tool <br>✅ QA30.", trimestre: 1 },
+  { id: 2, titre: "Juil-Sep", description: "✅ PM tool key user <br>✅ Vacances", trimestre: 2 },
+  { id: 3, titre: "Oct-Dec", description: "✅ Dashboard librairie Prog & Val<br>🕒 Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool", trimestre: 3 },
+  { id: 4, titre: "Janv-Mars", description: "✅ Ressources Allocation & Workload Planning Gantt tool basé sur le PM tool <br>🕒 Alertes mail temps prog & Val dans pm tool", trimestre: 4 },
 ];
 
 const TRIMESTRES = ["T1", "T2", "T3", "T4"];
@@ -80,7 +80,7 @@ export default function MiniJeuObjectifs() {
 
   return (
     <div className="w-full min-h-[520px] flex flex-col items-center p-6 gap-6 select-none">
-      <h1 className="text-3xl font-bold">Mini‑jeu : Objectifs annuels</h1>
+      <h1 className="text-3xl font-bold">Mini‑app synthetique : Objectifs annuels</h1>
 
       {/* Piste du temps */}
       <div className="relative w-full max-w-3xl mt-4">
@@ -144,7 +144,7 @@ export default function MiniJeuObjectifs() {
         </Button>
       </div>
 
-      <p className="text-xs text-slate-500">Utilise aussi les flèches du clavier !</p>
+      <p className="text-xs text-slate-500">Astuce : Utilise aussi les flèches du clavier !</p>
 
       {/* ⭐ Étoile finale + message */}
       {qIndex === 3 && (
